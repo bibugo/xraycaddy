@@ -9,7 +9,7 @@
 }
 
 :80 {
-    redir https://__DOMAIN__ permanent
+    redir https://{host} permanent
 }
 
 :8080 {
@@ -19,7 +19,7 @@
         format single_field common_log
     }
     file_server {
-        root /var/www/html
+        root /srv/caddy/html
     }
 }
 
