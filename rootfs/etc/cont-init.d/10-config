@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv sh
+
+TZ=${TZ:-"Asia/Shanghai"}
+
+ln -sf /usr/share/zoneinfo/$TZ /etc/localtime
+echo $TZ > /etc/timezone
+
+PUID=${PUID:-"1026"}
+PGID=${PGID:-${PUID}}
+
+sed -i -e "s/srv:x:1026/srv:x:$PGID/" /etc/group
+sed -i -e "s/srv:x:1026:1026/srv:x:$PUID:$PGID/" /etc/passwd
