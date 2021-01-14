@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+sleep 5
+
+CERTFILE="/srv/xray/trojan.crt"
+
+if [ -f $CERTFILE ]; then
+    s6-setuidgid srv /usr/bin/xray -config /srv/xray/config.json
+fi
