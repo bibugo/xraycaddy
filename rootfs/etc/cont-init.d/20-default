@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+mkdir -p \
+    /srv/caddy \
+    /srv/caddy/log
+
+CERTPATH="/srv/caddy/certificates/acme-v02.api.letsencrypt.org-directory"
