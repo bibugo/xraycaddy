@@ -1,1 +1,32 @@
+{
+    admin off
+    auto_https disable_redirects
+    servers 127.0.0.1:8080 {
+        protocol {
+            allow_h2c
+        }
+    }
+}
 
+:80 {
+    redir https://__DOMAIN__ permanent
+}
+
+:8080 {
+    bind 127.0.0.1
+    log {
+        output file /srv/caddy/log/access.log
+        format single_field common_log
+    }
+    file_server {
+        root /var/www/html
+    }
+}
+
+https://__DOMAIN__:8443 {
+    bind 127.0.0.1
+    tls {
+        dns cloudflare __CFKEY__
+    }
+    respond 204
+}
