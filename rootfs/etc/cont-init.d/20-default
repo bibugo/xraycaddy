@@ -26,7 +26,7 @@ fi
 
 if [ ! -f /srv/xray/config.json ]; then
     cp /defaults/xray.json /srv/xray/config.json
-    sed -i -e "s/__UUID__/$UUID/g" /srv/trojan/config.json
+    sed -i -e "s/__UUID__/$UUID/g" /srv/xray/config.json
 fi
 
 if [ ! -d /srv/caddy/html ]; then
