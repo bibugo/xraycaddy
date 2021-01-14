@@ -2,7 +2,7 @@
 
 sleep 5
 
-CERTFILE="/srv/xray/trojan.crt"
+CERTFILE="/srv/xray/fullchain.crt"
 
 if [ -f $CERTFILE ]; then
     s6-setuidgid srv /usr/bin/xray -config /srv/xray/config.json
