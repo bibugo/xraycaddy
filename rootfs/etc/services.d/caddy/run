@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+env HOME=/srv s6-setuidgid ${PUID} /usr/bin/caddy run --config /srv/caddy/Caddyfile
