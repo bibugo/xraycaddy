@@ -13,7 +13,7 @@ RUN apk add --no-cache  --virtual .build-deps \
         openssl; \
     set -eux; \
     cd ~; \
-    wget -O /tmp/xray.zip $(curl --silent "https://api.github.com/repos/XTLS/Xray-core/releases/latest" | jq -r '.assets[] | select(.name == "Xray-linux-64.zip").browser_download_url'); \
+    wget -O /tmp/xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip; \
     mkdir -p /root/xray; \
     unzip -q /tmp/xray.zip -d /root/xray; \
     rm -f /tmp/xray.zip; \
