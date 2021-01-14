@@ -1,7 +1,4 @@
-FROM 1.15.6-alpine3.12 as builder
-
-ARG XRAY_LATEST_URL="https://api.github.com/repos/XTLS/Xray-core/releases/latest"
-ARG XRAY_ASSETS_NAME="Xray-linux-64.zip"
+FROM golang:1.15.6-alpine3.12 as builder
 
 RUN apk add --no-cache  --virtual .build-deps \
         build-base \
@@ -16,7 +13,7 @@ RUN apk add --no-cache  --virtual .build-deps \
         openssl; \
     set -eux; \
     cd ~; \
-    wget -O /tmp/xray.zip $(curl --silent "${XRAY_LATEST_URL}" | jq -r '.assets[] | select(.name == "${XRAY_ASSETS_NAME}").browser_download_url'); \
+    wget -O /tmp/xray.zip $(curl --silent "https://api.github.com/repos/XTLS/Xray-core/releases/latest" | jq -r '.assets[] | select(.name == "Xray-linux-64.zip").browser_download_url'); \
     mkdir -p /root/xray; \
     unzip -q /tmp/xray.zip -d /root/xray; \
     rm -f /tmp/xray.zip; \
@@ -57,7 +54,7 @@ RUN \
     mv /tmp/caddy /usr/bin/caddy && \
     setcap cap_net_bind_service=+ep /usr/bin/caddy && \
     mkdir -p /usr/local/share/xray && \
-    ln -s /srv/xray/log /var/log/xray
+    ln -s /srv/xray/log /var/log/xray && \
     mv /tmp/geoip.dat /usr/local/share/xray/geoip.dat && \
     mv /tmp/geosite.dat /usr/local/share/xray/geosite.dat && \
     mv /tmp/xray /usr/bin/xray && \
