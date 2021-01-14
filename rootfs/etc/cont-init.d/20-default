@@ -3,6 +3,35 @@
 mkdir -p \
     /srv/caddy \
     /srv/caddy/log \
-    /srv/xray
+    /srv/xray \
+    /srv/xray/log
 
 CERTPATH="/srv/caddy/certificates/acme-v02.api.letsencrypt.org-directory"
+UUID=${UUID:-"6744d9b8-5638-11eb-ae93-0242ac130002"}
+
+if [ ! -f /srv/caddy/Caddyfile ]; then
+    cp /defaults/Caddyfile /srv/caddy/Caddyfile
+    if [[ -z "${DOMAIN}" || -z "${CFKEY}" ]]; then
+        sed -i -e "/^https:\/\/__DOMAIN__:8443/,$ d" /srv/caddy/Caddyfile
+        cp /defaults/example.key /srv/xray/private.key
+        cp /defaults/example.crt /srv/xray/fullchain.crt
+    else
+        sed -i -e "s/__DOMAIN__/${DOMAIN}/g" /srv/caddy/Caddyfile
+        sed -i -e "s/__CFKEY__/${CFKEY}/g" /srv/caddy/Caddyfile
+        ln -s $CERTPATH/${DOMAIN}/${DOMAIN}.crt /srv/xray/fullchain.crt
+        ln -s $CERTPATH/${DOMAIN}/${DOMAIN}.key /srv/xray/private.key
+    fi
+fi
+
+if [ ! -f /srv/xray/config.json ]; then
+    cp /defaults/xray.json /srv/xray/config.json
+    sed -i -e "s/__UUID__/$UUID/g" /srv/trojan/config.json
+fi
+
+if [ ! -d /srv/caddy/html ]; then
+    mkdir -p /srv/caddy/html
+    cp /defaults/index.html /srv/caddy/html/index.html
+fi
+
+chown -R srv:srv /defaults
+chown -R srv:srv /srv
