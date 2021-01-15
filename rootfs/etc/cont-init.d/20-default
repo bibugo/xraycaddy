@@ -4,7 +4,7 @@ mkdir -p \
     /srv/caddy \
     /srv/caddy/log \
     /srv/xray \
-    /srv/xray/certs
+    /srv/xray/certs \
     /srv/xray/log
 
 CERTPATH="/srv/caddy/certificates/acme-v02.api.letsencrypt.org-directory"
