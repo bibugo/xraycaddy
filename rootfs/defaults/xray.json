@@ -44,8 +44,8 @@
           "alpn": ["h2", "http/1.1"],
           "certificates": [
             {
-              "certificateFile": "/srv/xray/fullchain.crt",
-              "keyFile": "/srv/xray/private.key"
+              "certificateFile": "/srv/xray/certs/fullchain.crt",
+              "keyFile": "/srv/xray/certs/private.key"
             }
           ]
         }
