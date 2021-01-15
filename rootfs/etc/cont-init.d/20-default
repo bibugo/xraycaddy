@@ -7,6 +7,9 @@ mkdir -p \
     /srv/xray/certs \
     /srv/xray/log
 
+touch /var/log/xray/access.log
+touch /var/log/xray/error.log
+
 CERTPATH="/srv/caddy/certificates/acme-v02.api.letsencrypt.org-directory"
 UUID=${UUID:-"6744d9b8-5638-11eb-ae93-0242ac130002"}
 
