@@ -40,7 +40,7 @@ COPY --from=builder \
         /root/caddy \
         /root/example.key \
         /root/example.crt \
-        /tmp
+        /tmp/
 
 RUN \
     apk add --update --no-cache \
