@@ -4,8 +4,8 @@ mkdir -p \
     /srv/caddy \
     /srv/caddy/log \
     /srv/xray \
+    /srv/xray/certs
     /srv/xray/log
-chown -R srv:srv /var/log/xray
 
 CERTPATH="/srv/caddy/certificates/acme-v02.api.letsencrypt.org-directory"
 UUID=${UUID:-"6744d9b8-5638-11eb-ae93-0242ac130002"}
@@ -14,13 +14,13 @@ if [ ! -f /srv/caddy/Caddyfile ]; then
     cp /defaults/Caddyfile /srv/caddy/Caddyfile
     if [[ -z "${DOMAIN}" || -z "${CFKEY}" ]]; then
         sed -i -e "/^https:\/\/__DOMAIN__:8443/,$ d" /srv/caddy/Caddyfile
-        cp /defaults/example.key /srv/xray/private.key
-        cp /defaults/example.crt /srv/xray/fullchain.crt
+        cp -n /defaults/example.key /srv/xray/certs/private.key
+        cp -n /defaults/example.crt /srv/xray/certs/fullchain.crt
     else
         sed -i -e "s/__DOMAIN__/${DOMAIN}/g" /srv/caddy/Caddyfile
         sed -i -e "s/__CFKEY__/${CFKEY}/g" /srv/caddy/Caddyfile
-        ln -s $CERTPATH/${DOMAIN}/${DOMAIN}.crt /srv/xray/fullchain.crt
-        ln -s $CERTPATH/${DOMAIN}/${DOMAIN}.key /srv/xray/private.key
+        ln -sf $CERTPATH/${DOMAIN}/${DOMAIN}.crt /srv/xray/certs/fullchain.crt
+        ln -sf $CERTPATH/${DOMAIN}/${DOMAIN}.key /srv/xray/certs/private.key
     fi
 fi
 
@@ -36,3 +36,4 @@ fi
 
 chown -R srv:srv /defaults
 chown -R srv:srv /srv
+chown -R srv:srv /var/log/xray
