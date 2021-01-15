@@ -12,7 +12,7 @@ RUN apk add --no-cache  --virtual .build-deps \
         jq \
         openssl; \
     set -eux; \
-    cd ~; \
+    cd /root; \
     wget -O /tmp/xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip; \
     mkdir -p /root/xray; \
     unzip -q /tmp/xray.zip -d /root/xray; \
@@ -33,12 +33,14 @@ FROM alpine:3.12
 ADD rootfs /
 ADD https://github.com/just-containers/s6-overlay/releases/latest/download/s6-overlay-amd64.tar.gz /tmp/s6overlay.tar.gz
 
-COPY --from=builder /root/xray/xray /tmp/xray
-COPY --from=builder /root/xray/geoip.dat /tmp/geoip.dat
-COPY --from=builder /root/xray/geosite.dat /tmp/geosite.dat
-COPY --from=builder /root/caddy /tmp/caddy
-COPY --from=builder /root/example.key /defaults/example.key
-COPY --from=builder /root/example.crt /defaults/example.crt
+COPY --from=builder \
+        /root/xray/xray \
+        /root/xray/geoip.dat \
+        /root/xray/geosite.dat \
+        /root/caddy \
+        /root/example.key \
+        /root/example.crt \
+        /tmp
 
 RUN \
     apk add --update --no-cache \
@@ -53,20 +55,22 @@ RUN \
     addgroup srv users && \
     mv /tmp/caddy /usr/bin/caddy && \
     setcap cap_net_bind_service=+ep /usr/bin/caddy && \
-    mkdir -p /usr/local/share/xray && \
     ln -s /srv/xray/log /var/log/xray && \
+    mkdir -p /usr/local/share/xray && \
     mv /tmp/geoip.dat /usr/local/share/xray/geoip.dat && \
     mv /tmp/geosite.dat /usr/local/share/xray/geosite.dat && \
     mv /tmp/xray /usr/bin/xray && \
-    setcap cap_net_bind_service=+ep /usr/bin/xray
+    setcap cap_net_bind_service=+ep /usr/bin/xray && \
+    mv /tmp/example.key /defaults/example.key && \
+    mv /tmp/example.crt /defaults/example.crt
 
-ENV XDG_CONFIG_HOME /srv
-ENV XDG_DATA_HOME /srv
+ENV \
+        XDG_CONFIG_HOME="/srv" \
+        XDG_DATA_HOME="/srv"
+
+EXPOSE 80 443
 
 VOLUME /srv
-
-EXPOSE 80
-EXPOSE 443
 
 WORKDIR /srv
 
