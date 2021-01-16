@@ -55,7 +55,6 @@ RUN \
     addgroup srv users && \
     mv /tmp/caddy /usr/bin/caddy && \
     setcap cap_net_bind_service=+ep /usr/bin/caddy && \
-    ln -s /srv/xray/log /var/log/xray && \
     mkdir -p /usr/local/share/xray && \
     mv /tmp/geoip.dat /usr/local/share/xray/geoip.dat && \
     mv /tmp/geosite.dat /usr/local/share/xray/geosite.dat && \
