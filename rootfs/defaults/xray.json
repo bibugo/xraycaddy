@@ -1,5 +1,7 @@
 {
   "log": {
+    "access": "/srv/xray/log/access.log",
+    "error": "/srv/xray/log/error.log",
     "loglevel": "warning"
   },
   "inbounds": [
