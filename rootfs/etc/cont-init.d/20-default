@@ -4,7 +4,6 @@ mkdir -p \
     /srv/caddy \
     /srv/caddy/log \
     /srv/xray \
-    /srv/xray/certs \
     /srv/xray/log
 
 touch /var/log/xray/access.log
@@ -17,13 +16,13 @@ if [ ! -f /srv/caddy/Caddyfile ]; then
     cp /defaults/Caddyfile /srv/caddy/Caddyfile
     if [[ -z "${DOMAIN}" || -z "${CFKEY}" ]]; then
         sed -i -e "/^https:\/\/__DOMAIN__:8443/,$ d" /srv/caddy/Caddyfile
-        false | cp -i /defaults/example.key /srv/xray/certs/private.key 2>/dev/null
-        false | cp -i /defaults/example.crt /srv/xray/certs/fullchain.crt 2>/dev/null
+        false | cp -i /defaults/example.key /srv/xray/private.key 2>/dev/null
+        false | cp -i /defaults/example.crt /srv/xray/fullchain.crt 2>/dev/null
     else
         sed -i -e "s/__DOMAIN__/${DOMAIN}/g" /srv/caddy/Caddyfile
         sed -i -e "s/__CFKEY__/${CFKEY}/g" /srv/caddy/Caddyfile
-        ln -sf $CERTPATH/${DOMAIN}/${DOMAIN}.crt /srv/xray/certs/fullchain.crt
-        ln -sf $CERTPATH/${DOMAIN}/${DOMAIN}.key /srv/xray/certs/private.key
+        ln -sf $CERTPATH/${DOMAIN}/${DOMAIN}.crt /srv/xray/fullchain.crt
+        ln -sf $CERTPATH/${DOMAIN}/${DOMAIN}.key /srv/xray/private.key
     fi
 fi
 
