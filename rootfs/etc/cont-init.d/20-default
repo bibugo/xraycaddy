@@ -10,7 +10,7 @@ touch /srv/xray/log/access.log
 touch /srv/xray/log/error.log
 
 CERTPATH="/srv/caddy/certificates/acme-v02.api.letsencrypt.org-directory"
-UUID=${UUID:-"e53b463e-1195-5223-8637-c259c4a2010f"}
+UUID=${UUID:-"$(xray uuid -i 'xraycaddy')"}
 
 if [ ! -f /srv/caddy/Caddyfile ]; then
     cp /defaults/Caddyfile /srv/caddy/Caddyfile
