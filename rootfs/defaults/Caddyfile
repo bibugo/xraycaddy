@@ -23,7 +23,7 @@
     }
 }
 
-https://__DOMAIN__:8443 {
+https://{env.DOMAIN}:8443 {
     bind 127.0.0.1
     tls {
         dns cloudflare {env.CFKEY}
