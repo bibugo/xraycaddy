@@ -20,7 +20,6 @@ if [ ! -f /srv/caddy/Caddyfile ]; then
         false | cp -i /defaults/example.crt /srv/xray/fullchain.crt 2>/dev/null
     else
         sed -i -e "s/__DOMAIN__/${DOMAIN}/g" /srv/caddy/Caddyfile
-        sed -i -e "s/__CFKEY__/${CFKEY}/g" /srv/caddy/Caddyfile
         ln -sf $CERTPATH/${DOMAIN}/${DOMAIN}.crt /srv/xray/fullchain.crt
         ln -sf $CERTPATH/${DOMAIN}/${DOMAIN}.key /srv/xray/private.key
     fi
