@@ -26,7 +26,7 @@
 https://__DOMAIN__:8443 {
     bind 127.0.0.1
     tls {
-        dns cloudflare __CFKEY__
+        dns cloudflare {env.CFKEY}
     }
     respond 204
 }
