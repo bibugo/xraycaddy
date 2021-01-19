@@ -15,7 +15,7 @@ UUID=${UUID:-"e53b463e-1195-5223-8637-c259c4a2010f"}
 if [ ! -f /srv/caddy/Caddyfile ]; then
     cp /defaults/Caddyfile /srv/caddy/Caddyfile
     if [[ -z "${DOMAIN}" || -z "${CFKEY}" ]]; then
-        sed -i -e "/^https:\/\/{env.DOMAIN}:8443/,$ d" /srv/caddy/Caddyfile
+        sed -i -e "/^https:\/\/\{env.DOMAIN\}:8443/,$ d" /srv/caddy/Caddyfile
         false | cp -i /defaults/example.key /srv/xray/private.key 2>/dev/null
         false | cp -i /defaults/example.crt /srv/xray/fullchain.crt 2>/dev/null
     else
